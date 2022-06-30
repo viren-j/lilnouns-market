@@ -217,7 +217,7 @@ const ListModal: FC<Props> = ({
       weiPrice: ethers.utils.parseEther(listingPrice).toString(),
       token: `${token_?.contract}:${token_?.tokenId}`,
       expirationTime: expirationValue,
-      orderKind: 'wyvern-v2.3',
+      orderKind: 'seaport',
     }
 
     if (SOURCE_ID) query.source = SOURCE_ID
