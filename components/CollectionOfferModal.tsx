@@ -31,6 +31,9 @@ const SOURCE_ID = process.env.NEXT_PUBLIC_SOURCE_ID
 const FEE_BPS = process.env.NEXT_PUBLIC_FEE_BPS
 const FEE_RECIPIENT = process.env.NEXT_PUBLIC_FEE_RECIPIENT
 
+const ARTBLOCKS = '0xa7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270'
+const ARTBLOCKS2 = '0x059edd72cd353df5106d2b9cc5ab83a52287ac3a'
+
 type Props = {
   env: {
     chainId: ChainId
@@ -170,8 +173,16 @@ const CollectionOfferModal: FC<Props> = ({
     const options: Parameters<ReservoirSDKActions['placeBid']>['0']['options'] =
       {
         expirationTime: expirationValue,
-        orderKind: 'seaport',
       }
+
+    if (
+      !data.collection.id?.toLowerCase().includes(ARTBLOCKS.toLowerCase()) &&
+      !data.collection.id?.toLowerCase().includes(ARTBLOCKS2.toLowerCase())
+    ) {
+      options.orderKind = 'seaport'
+    } else {
+      options.orderKind = 'zeroex-v4'
+    }
 
     if (SOURCE_ID) options.source = SOURCE_ID
     if (FEE_BPS) options.fee = FEE_BPS
